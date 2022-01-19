@@ -17,6 +17,13 @@ let animals = [];
 
 let sausageDogImage = undefined;
 let sausageDog = undefined;
+
+let winSound = undefined;
+let songIsPlaying = false;
+
+let red = 1;
+let green = 1;
+let blue = 1;
 /**
 Description of preload
 */
@@ -26,7 +33,9 @@ function preload() {
     animalImages.push(animalImage);
   }
 
-  sausageDogImage = loadImage(`assets/images/sausage-dog.png`)
+  sausageDogImage = loadImage(`assets/images/sausage-dog.png`);
+  winSound = loadSound(`assets/sounds/wee.mp3`);
+
 }
 
 
@@ -87,13 +96,44 @@ background(60,0,10);
 }
 
 function end() {
-  background(10,0,100);
   push();
     textAlign(CENTER);
     textSize(100);
+    translate(width/2,height/2);
+    rotate( radians(frameCount) );
+    strokeWeight(8);
+    stroke(red, green, blue,);
     fill(255);
-    text(`good job!`,width/2,height/2);
+    text(`good job!`,0,0);
+    colourChange();
   pop();
+
+  winMusic();
+}
+
+function colourChange(){
+  if(red < 254){
+    red = red + 1
+  } else if (green > 254){
+    green = green + 1
+  } else if (blue > 254){
+    blue = blue + 1
+  } else if (red === 254 &&
+      green === 254 &&
+      blue === 254){
+        red = 1;
+        green = 1;
+        blue = 1;
+      }
+}
+
+function winMusic() {
+  if (!winSound.isPlaying()) {
+    winSound.loop();
+    if (state != `end`) {
+      winSound.stop();
+    }
+  }
 }
 
 function callStates() {
