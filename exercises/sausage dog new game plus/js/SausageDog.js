@@ -1,9 +1,12 @@
 class SausageDog extends Animal {
+
+
   constructor(x , y , image) {
     super(x, y, image);
 
     this.found = false;
     this.rotationSpeed = 0.25;
+    this.barking = false;
   }
 
   update() {
@@ -31,4 +34,14 @@ class SausageDog extends Animal {
       this.found = false;
     }
   }
+
+  barkCheck(){
+    if (mouseX > this.x - this.image.width/0.5 &&
+        mouseX < this.x + this.image.width/0.5 &&
+        mouseY > this.y - this.image.height/0.5 &&
+        mouseY < this.y + this.image.height/0.5){
+          this.barking = true;
+        } else this.barking = false;
+  }
+
 }

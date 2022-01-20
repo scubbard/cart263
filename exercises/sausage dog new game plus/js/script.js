@@ -2,8 +2,8 @@
 wheres sausage dog
 georgie
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
+simulation in which you, the audience, must find a sausage dog among its many
+compatriots.
 */
 
 "use strict";
@@ -21,11 +21,15 @@ let sausageDog = undefined;
 let winSound = undefined;
 let songIsPlaying = false;
 
+let barkingSound = undefined;
+let isBarking = false;
+
 let red = 1;
 let green = 1;
 let blue = 1;
 /**
-Description of preload
+load array of random animals to disguise sausage dog, also loads images of
+animals and sounds for finding dog and winning
 */
 function preload() {
   for (let i = 0; i < NUM_ANIMAL_IMAGES; i++){
@@ -35,6 +39,8 @@ function preload() {
 
   sausageDogImage = loadImage(`assets/images/sausage-dog.png`);
   winSound = loadSound(`assets/sounds/wee.mp3`);
+
+  barkingSound = loadSound(`assets/sounds/bark.wav`);
 
 }
 
@@ -95,7 +101,7 @@ background(60,0,10);
   sausageDog.update();
 
   resetText();
-
+  bark();
 }
 
 function end() {
@@ -111,6 +117,7 @@ function end() {
     text(`good job!`,0,0);
   pop();
   winMusic();
+  bark();
 }
 
 function colourChange(){
@@ -163,4 +170,17 @@ function resetText(){
     fill(200,100,60);
     text(`press the down arrow to reset`,width/2,height - height/4);
   pop();
+}
+
+function bark(){
+  sausageDog.barkCheck();
+  if (sausageDog.barking === true){
+    barkSound();
+  } else barkingSound.stop();
+}
+
+function barkSound(){
+  if(!barkingSound.isPlaying()){
+    barkingSound.loop();
+  }
 }
