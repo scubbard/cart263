@@ -14,6 +14,8 @@ class SausageDog extends Animal {
     }
   }
 
+
+
   mousePressed() {
     if (mouseX > this.x - this.image.width/2 &&
         mouseX < this.x + this.image.width/2 &&
@@ -22,5 +24,11 @@ class SausageDog extends Animal {
           this.found = true;
           state = `end`;
         }
+  }
+
+  keyPressed(){
+    if(keyCode === DOWN_ARROW) {
+      this.found = false;
+    }
   }
 }

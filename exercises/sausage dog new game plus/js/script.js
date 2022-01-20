@@ -93,6 +93,9 @@ background(60,0,10);
   }
 
   sausageDog.update();
+
+  resetText();
+
 }
 
 function end() {
@@ -107,7 +110,6 @@ function end() {
     fill(255);
     text(`good job!`,0,0);
   pop();
-
   winMusic();
 }
 
@@ -142,4 +144,23 @@ function callStates() {
   } else if (state === `end`) {
     end();
   }
+}
+
+function keyPressed(){
+  if (keyCode === DOWN_ARROW){
+    state = `start`
+    winSound.stop();
+    sausageDog.keyPressed();
+  }
+}
+
+function resetText(){
+  push();
+    textAlign(CENTER);
+    textSize(25);
+    strokeWeight(4)
+    stroke(0);
+    fill(200,100,60);
+    text(`press the down arrow to reset`,width/2,height - height/4);
+  pop();
 }
