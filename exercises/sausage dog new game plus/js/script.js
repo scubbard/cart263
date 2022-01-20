@@ -96,6 +96,7 @@ background(60,0,10);
 }
 
 function end() {
+  colourChange();
   push();
     textAlign(CENTER);
     textSize(100);
@@ -105,25 +106,22 @@ function end() {
     stroke(red, green, blue,);
     fill(255);
     text(`good job!`,0,0);
-    colourChange();
   pop();
 
   winMusic();
 }
 
 function colourChange(){
-  if(red < 254){
+  if(red < 250){
     red = red + 1
   } else if (green > 254){
     green = green + 1
   } else if (blue > 254){
     blue = blue + 1
-  } else if (red === 254 &&
-      green === 254 &&
-      blue === 254){
+  } else {
         red = 1;
-        green = 1;
-        blue = 1;
+        green = random(0,100);
+        blue = random(0,100);
       }
 }
 
