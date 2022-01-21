@@ -75,7 +75,7 @@ function draw() {
 }
 
 function mousePressed() {
-  sausageDog.mousePressed();
+  sausageDog.mouseCheck();
   if (state === `start`) {
     state = `game`;
   }
@@ -174,7 +174,8 @@ function resetText(){
 
 function bark(){
   sausageDog.barkCheck();
-  if (sausageDog.barking === true){
+  if (sausageDog.barking === true &&
+      state != `start`){
     barkSound();
   } else barkingSound.stop();
 }

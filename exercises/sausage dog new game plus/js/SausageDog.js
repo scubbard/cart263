@@ -29,6 +29,10 @@ class SausageDog extends Animal {
         }
   }
 
+  mouseCheck(){
+    mousePressed();
+  }
+
   keyPressed(){
     if(keyCode === DOWN_ARROW) {
       this.found = false;
