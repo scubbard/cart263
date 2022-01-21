@@ -62,7 +62,7 @@ function setup() {
 
   let x = random(0,width);
   let y = random(0,height);
-  let sausageDog = new SausageDog(x,y, sausageDogImage);
+  sausageDog = new SausageDog(x,y, sausageDogImage);
 }
 
 
@@ -75,7 +75,7 @@ function draw() {
 }
 
 function mousePressed() {
-  sausageDog.mouseCheck();
+  sausageDog.mousePressed();
   if (state === `start`) {
     state = `game`;
   }
