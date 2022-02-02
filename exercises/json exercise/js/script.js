@@ -10,30 +10,40 @@ author, and this description to match your project!
 
 //global variable to store json data
 let tarot;
-let fortune;
+let fortune =  `No fortune loaded.`;
 
 function preload() {
-  tarot = loadJSON("assets/data/tarot_interpretations.json");
+  //tarot = loadJSON("assets/data/tarot_interpretations.json");
 }
 
 
 function setup() {
   createCanvas(windowWidth,windowHeight);
-  let card = random(tarot.tarot_interpretations);
-  fortune = random(card.fortune_telling);
+  //let card = random(tarot.tarot_interpretations);
+  //fortune = random(card.fortune_telling);
 }
 
 
 function draw() {
   background(0);
+  //let description = tarot.description;
+  //let thirdShadowMeaning = tarot.tarot_interpretations[2].meanings.light[2];
 
-  // Display the fortune
   push();
-  textSize(32);
-  textAlign(CENTER, CENTER);
-  fill(255, 255, 0);
-  // Center the resulting text box
-  // Use width and height properties to break up the text
-  text(fortune, width / 2, height / 2, width /2, height / 2);
+    textSize(30);
+    textAlign(CENTER,CENTER);
+    fill(100,0,20);
+    rectMode(CENTER);
+    text(fortune, width/2,height/2, width/2);
   pop();
+}
+
+function mousePressed(){
+  loadJSON("assets/data/tarot_interpretations.json", tarotLoaded);
+}
+
+function tarotLoaded(data) {
+  tarot = data;
+  let card = random(tarot.tarot_interpretations);
+  fortune = random(card.fortune_telling);
 }
