@@ -10,11 +10,13 @@ author, and this description to match your project!
 
 let state = `denied`;
 
+//sets defaults for `spyProfile`
 let spyProfile = {
   name: `REDACTED`,
   alias: `REDACTED`,
   secretWeapon: `REDACTED`,
-  password: `REDACTED`
+  password: `REDACTED`,
+  location: `REDACTED`,
 };
 
 let lineBreak = 100;
@@ -22,7 +24,7 @@ let lineBreak = 100;
 let tarotData;
 let objectData;
 let instrumentData;
-let card;
+let locationData;
 
 let lineX = 80;
 
@@ -33,19 +35,16 @@ let accessX = 80;
 let accessY = 600;
 
 
-/**
-Description of preload
-*/
+//loads password, weapon, alias, and location datasets from github
 function preload() {
   tarotData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/divination/tarot_interpretations.json`);
-  objectData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/objects/objects.json`)
-  instrumentData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/music/instruments.json`)
+  objectData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/objects/objects.json`);
+  instrumentData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/music/instruments.json`);
+  locationData = loadJSON(`https://raw.githubusercontent.com/dariusk/corpora/master/data/geography/countries.json`);
 }
 
 
-/**
-Description of setup
-*/
+//creates canvas, checks if user has accessed site before with password
 function setup() {
   createCanvas(windowWidth, windowHeight);
   if (data) {
@@ -57,14 +56,12 @@ function setup() {
     }
   } else {
     generateSpyProfile();
-    state = `denied`
   }
 }
 
 
-/**
-Description of draw()
-*/
+//creates background, displays profile, runs function to check if access is "granted"
+// or "denied"
 function draw() {
   background(180, 120, 40);
   displaySpyProfile();
@@ -72,9 +69,9 @@ function draw() {
 }
 
 function displaySpyProfile() {
-
+//creates a rectangle that looks like. paper
   paperRectangle();
-
+//displays 5 properties of spyProfile (name, alias, weapon, location, password)
   push();
   textFont(`Courier`);
   textSize(30);
@@ -84,9 +81,11 @@ function displaySpyProfile() {
   text(`AGENT NAME: ${spyProfile.name}`, lineX, lineBreak + 50);
   text(`AGENT ALIAS: ${spyProfile.alias}`, lineX, lineBreak + 100);
   text(`REQUESTED ARMS: ${spyProfile.secretWeapon}`, lineX, lineBreak + 150);
-  text(`AGENT IDENTIFICATION PHRASE: ${spyProfile.password}`, lineX, lineBreak + 200);
+  text(`MISSION LOCATION: ${spyProfile.location}`, lineX, lineBreak + 200);
+  text(`AGENT IDENTIFICATION PHRASE: ${spyProfile.password}`, lineX, lineBreak + 250);
   pop();
 
+//text prompting u
   push();
   textFont(`Helvetica`);
   textSize(30);
@@ -102,8 +101,15 @@ function generateSpyProfile() {
   spyProfile.name = prompt(`Name.`);
   spyProfile.alias = `The ${random(instrumentData.instruments)}`;
   spyProfile.secretWeapon = random(objectData.objects);
-  card = random(tarotData.tarot_interpretations);
+  spyProfile.location = random(locationData.countries);
+  let card = random(tarotData.tarot_interpretations);
   spyProfile.password = random(card.keywords);
+
+  if (spyProfile.name === `**REDACTED**`){
+    state = `denied`
+  } else {
+    state = `granted`;
+  }
 
 
   localStorage.setItem(`spy-profile-data`, JSON.stringify(spyProfile));
@@ -111,9 +117,10 @@ function generateSpyProfile() {
 
 function dataAssign() {
   spyProfile.name = data.name;
-  spyProfile.alias = data.alias
+  spyProfile.alias = data.alias;
   spyProfile.secretWeapon = data.secretWeapon;
   spyProfile.password = data.password;
+  spyProfile.location = data.location;
 }
 
 function paperRectangle() {
@@ -131,7 +138,7 @@ function mousePressed() {
 //function to make RV speak a script detailing the agent's "mission"
 function spokenCommand() {
   let script = (`${spyProfile.alias}, your mission is to use your
-    ${spyProfile.secretWeapon} in order to retreive the codec from X-COM.
+    ${spyProfile.secretWeapon} in order to retreive the codec from ${spyProfile.location}.
     Good luck, ${spyProfile.name}`);
   responsiveVoice.speak(script, "UK English Male", {
     rate: 1
@@ -140,22 +147,23 @@ function spokenCommand() {
   })
 }
 
+//checks if password is correct and displays corresponding message
 function access() {
   if (state === `granted`) {
     push();
-      textFont(`Courier`);
-      textAlign(LEFT);
-      textSize(40);
-      fill(40, 255, 0)
-      text(`ACCESS GRANTED`, accessX, accessY);
+    textFont(`Courier`);
+    textAlign(LEFT);
+    textSize(40);
+    fill(40, 255, 0)
+    text(`ACCESS GRANTED`, accessX, accessY);
     pop();
   } else if (state === `denied`) {
     push();
-      textFont(`Courier`);
-      textAlign(LEFT);
-      textSize(40);
-      fill(255, 40, 0)
-      text(`ACCESS DENIED`, accessX, accessY);
+    textFont(`Courier`);
+    textAlign(LEFT);
+    textSize(40);
+    fill(255, 40, 0)
+    text(`ACCESS DENIED`, accessX, accessY);
     pop();
   }
 }
