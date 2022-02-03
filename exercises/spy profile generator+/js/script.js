@@ -24,7 +24,9 @@ let card;
 
 let lineX = 100;
 
+
 let data = JSON.parse(localStorage.getItem(`spy-profile-data`));
+
 
 /**
 Description of preload
@@ -68,10 +70,16 @@ function displaySpyProfile() {
   textAlign(LEFT);
   stroke(0);
   text(`**CLASSIFIED**`, lineX, lineBreak)
-  text(spyProfile.name, lineX, lineBreak + 50);
-  text(spyProfile.alias, lineX, lineBreak + 100);
-  text(spyProfile.secretWeapon, lineX, lineBreak + 150);
-  text(spyProfile.password, lineX, lineBreak + 200);
+  text(`AGENT NAME: ${spyProfile.name}`, lineX, lineBreak + 50);
+  text(`AGENT ALIAS: ${spyProfile.alias}`, lineX, lineBreak + 100);
+  text(`REQUESTED ARMS: ${spyProfile.secretWeapon}`, lineX, lineBreak + 150);
+  text(`AGENT IDENTIFICATION PHRASE: ${spyProfile.password}`, lineX, lineBreak + 200);
+  pop();
+  push();
+  textFont(`Helvetica`);
+  textSize(30);
+  textAlign(RIGHT);
+  text(`click to receive mission.`, width - lineX, lineBreak);
   pop();
 }
 
@@ -91,4 +99,17 @@ function dataAssign() {
   spyProfile.alias = data.alias
   spyProfile.secretWeapon = data.secretWeapon;
   spyProfile.password = data.password;
+}
+
+
+function mousePressed(){
+  spokenCommand();
+}
+
+//function to make RV speak a script detailing the agent's "mission"
+function spokenCommand(){
+  let script = (`${spyProfile.alias}, your mission is to use your
+    ${spyProfile.secretWeapon} in order to retreive the codec from X-COM.
+    Good luck, ${spyProfile.name}`);
+  responsiveVoice.speak(script, "UK English Male", {rate: 1}, {pitch: 0.2})
 }
