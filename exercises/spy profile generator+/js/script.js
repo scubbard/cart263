@@ -85,7 +85,7 @@ function displaySpyProfile() {
   text(`AGENT IDENTIFICATION PHRASE: ${spyProfile.password}`, lineX, lineBreak + 250);
   pop();
 
-//text prompting u
+//text prompting user to click the mouse and hear responsiveVoice read aloud their mission
   push();
   textFont(`Helvetica`);
   textSize(30);
@@ -97,6 +97,7 @@ function displaySpyProfile() {
 
 }
 
+//generates a random spy profile based on aforementioned datasets
 function generateSpyProfile() {
   spyProfile.name = prompt(`Name.`);
   spyProfile.alias = `The ${random(instrumentData.instruments)}`;
@@ -105,16 +106,17 @@ function generateSpyProfile() {
   let card = random(tarotData.tarot_interpretations);
   spyProfile.password = random(card.keywords);
 
+//bit of a clumsy check to make sure access isn't "denied" when the user accesses
+//the site for the first time
   if (spyProfile.name === `**REDACTED**`){
     state = `denied`
   } else {
     state = `granted`;
   }
 
-
+//saves the users spy profile
   localStorage.setItem(`spy-profile-data`, JSON.stringify(spyProfile));
 }
-
 function dataAssign() {
   spyProfile.name = data.name;
   spyProfile.alias = data.alias;
