@@ -33,6 +33,9 @@ bubble = {
  size: 20,
  vx:0,
  vy:-2,
+ red:255,
+ green: 255,
+ blue: 255,
 }
 
 
@@ -89,7 +92,7 @@ if (d < 15){
 
 }
 push();
-fill(255);
+fill(bubble.red,bubble.green,bubble.blue);
 circle(bubble.x,bubble.y,bubble.size);
   bubble.y = bubble.y + bubble.vy;
 
@@ -99,18 +102,29 @@ circle(bubble.x,bubble.y,bubble.size);
 pop();
 }
 
+//checks if bubble was reset due to being popped
 function resetBubblePopped() {
   bubble.y = height;
   bubble.x = random(width);
+  bubble.vy = random(-2,-5)
+  bubble.red = random(255);
+  bubble.green = random(255);
+  bubble.blue = random(255);
   counterPopped ++
 }
 
+//checks if bubble was reset due to being missed
 function resetBubbleMissed(){
   bubble.y = height;
   bubble.x = random(width);
+  bubble.vy = random(-2,-5)
+  bubble.red = random(255);
+  bubble.green = random(255);
+  bubble.blue = random(255);
   counterMissed ++
 }
 
+//displays counters that show number of bubbles missed and popped
 function counterDisplay(){
   push();
     textAlign(LEFT);
