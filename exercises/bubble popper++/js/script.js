@@ -18,6 +18,12 @@ let counterPopped = 0;
 
 let counterMissed = 0;
 
+let bubbleSong;
+
+function preload(){
+  bubbleSong = loadSound(`assets/sounds/bubble theme.mp3`);
+}
+
 /**
 setup ml5 to capture video from webcam and not show feed
 */
@@ -100,6 +106,7 @@ circle(bubble.x,bubble.y,bubble.size);
     resetBubbleMissed();
   }
 pop();
+musicPlay();
 }
 
 //checks if bubble was reset due to being popped
@@ -141,4 +148,12 @@ function counterDisplay(){
     strokeWeight(4);
     text(counterMissed,width - width/5,height/4);
   pop();
+}
+
+function musicPlay(){
+  if (!bubbleSong.isPlaying()){
+    bubbleSong.loop();
+  } else {
+    bubbleSong.stop();
+  }
 }
