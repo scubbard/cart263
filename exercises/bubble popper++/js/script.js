@@ -20,6 +20,7 @@ let counterMissed = 0;
 
 let bubbleSong;
 
+//loads bubble song asset
 function preload(){
   bubbleSong = loadSound(`assets/sounds/bubble theme.mp3`);
 }
@@ -150,6 +151,8 @@ function counterDisplay(){
   pop();
 }
 
+//play a little cute soundtrack while you pop bubbles!
+//(music by me)
 function musicPlay(){
   if (!bubbleSong.isPlaying()){
     bubbleSong.loop();
