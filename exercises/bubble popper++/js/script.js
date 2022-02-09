@@ -14,23 +14,19 @@ let predictions = [];
 
 let bubble = undefined;
 
-/**
-Description of preload
-*/
-function preload() {
+let counterPopped = 0;
 
-}
-
+let counterMissed = 0;
 
 /**
-Description of setup
+setup ml5 to capture video from webcam and not show feed
 */
 function setup() {
 createCanvas(640,480);
 video = createCapture(VIDEO);
 video.hide();
 
-//bubble!
+//make a bubble!
 bubble = {
  x: random(width),
  y: height,
@@ -39,13 +35,6 @@ bubble = {
  vy:-2,
 }
 
-/*
- bubble.x = random(width);
- bubble.y = 0;
- bubble.size = 20;
- bubble.vx = 0;
- bubble.vy = -2;
-*/
 
 //loads model, flips video horizontally
 handpose = ml5.handpose(video, {
@@ -67,6 +56,7 @@ Description of draw()
 */
 function draw() {
 background(0);
+counterDisplay();
 if (predictions.length > 0){
   let hand = predictions[0];
   let index = hand.annotations.indexFinger;
@@ -94,7 +84,7 @@ if (predictions.length > 0){
 let d = dist(tipX,tipY,bubble.x,bubble.y)
 
 if (d < 15){
-  resetBubble();
+  resetBubblePopped();
 }
 
 }
@@ -104,16 +94,37 @@ circle(bubble.x,bubble.y,bubble.size);
   bubble.y = bubble.y + bubble.vy;
 
   if (bubble.y < 0) {
-    resetBubble();
+    resetBubbleMissed();
   }
 pop();
 }
 
-function resetBubble() {
+function resetBubblePopped() {
   bubble.y = height;
   bubble.x = random(width);
+  counterPopped ++
 }
 
-function displayPin(){
+function resetBubbleMissed(){
+  bubble.y = height;
+  bubble.x = random(width);
+  counterMissed ++
+}
 
+function counterDisplay(){
+  push();
+    textAlign(LEFT);
+    textSize(24);
+    stroke(0,200,20);
+    strokeWeight(4);
+    text(counterPopped,width/5,height/4);
+  pop();
+
+  push();
+    textAlign(RIGHT);
+    textSize(24);
+    stroke(255,0,20);
+    strokeWeight(4);
+    text(counterMissed,width - width/5,height/4);
+  pop();
 }
