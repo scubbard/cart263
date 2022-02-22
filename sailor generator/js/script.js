@@ -16,6 +16,10 @@ let lastWord = ``;
 let currentWord = ``;
 let myFont;
 let frameOne;
+let frameTwo;
+
+let anim;
+let sprite;
 
 /**
 Description of preload
@@ -24,6 +28,9 @@ function preload() {
  proverbData = loadJSON(`assets/data/sailor.json`);
  myFont = loadFont(`assets/fonts/ampersand.ttf`);
  frameOne = loadImage(`assets/images/startFrame1.png`);
+ frameTwo = loadImage(`assets/images/startFrame2.png`);
+
+ anim = loadAnimation(`assets/images/startFrame1.png`,`assets/images/startFrame2.png`)
 }
 
 
@@ -32,15 +39,15 @@ Description of setup
 */
 function setup() {
 createCanvas(windowWidth,windowHeight);
+anim.frameDelay = 24;
 
+sprite = createSprite(width/2, height/2);
+sprite.addAnimation("intro", anim);
 }
 
 function start(){
   background(30,40,60);
-  push();
-  imageMode(CENTER);
-  image(frameOne, width/2, height/2);
-  pop();
+  drawSprites();
 }
 
 function game(){
@@ -70,10 +77,9 @@ Description of draw()
 */
 function draw() {
 stateCheck();
+}
 
-
-
-
+function animate(){
 
 }
 
