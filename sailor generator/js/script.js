@@ -9,12 +9,17 @@ code by georgie
 
 let proverbData;
 let proverb = `no proverb loaded`;
+let typing = ``;
+let lastWord = ``;
+let currentWord = ``;
+let myFont;
 
 /**
 Description of preload
 */
 function preload() {
  proverbData = loadJSON(`assets/data/sailor.json`);
+ myFont = loadFont(`assets/fonts/ampersand.ttf`);
 }
 
 
@@ -32,6 +37,7 @@ Description of draw()
 */
 function draw() {
 background(30,40,60);
+wordTyped();
 
 push();
 textSize(30);
@@ -42,6 +48,15 @@ stroke(0);
 rectMode(CENTER);
 text(proverb, width/2, height/2, width/2);
 pop();
+
+push();
+textSize(18);
+textAlign(CENTER);
+textFont(myFont);
+text(typing, width/2, height/4);
+pop();
+
+
 }
 
 function mousePressed(){
@@ -52,10 +67,19 @@ function mousePressed(){
  });
 }
 
-/*
-function proverbsLoaded(data){
-  proverbs = data;
-  proverbs = random(proverbs.sailor);
-
+function keyTyped() {
+  stroke(0);
+  typing += key;
 }
-*/
+
+function keyPressed() {
+  if (keyCode === BACKSPACE) {
+    typing = typing.substring(0, typing.length - 1);
+  }
+}
+
+function wordTyped(){
+  if (typing === `lantern`) {
+    background(200,0,0);
+  }
+}
