@@ -1,9 +1,7 @@
 /**
-Title of Project
-Author Name
+the lighthouse
+code by georgie
 
-This is a template. You must fill in the title,
-author, and this description to match your project!
 */
 
 "use strict";
@@ -48,6 +46,10 @@ pop();
 
 function mousePressed(){
  proverb = random(proverbData.proverbs);
+ responsiveVoice.speak(proverb,"UK English Male", {
+   pitch: 0.75,
+   rate: 0.75
+ });
 }
 
 /*
