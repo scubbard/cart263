@@ -10,7 +10,7 @@ let state = `start`
 
 
 let proverbData;
-let proverb = `no proverb loaded`;
+let proverb = ``;
 let typing = ``;
 let lastWord = ``;
 let currentWord = ``;
@@ -18,8 +18,16 @@ let myFont;
 let frameOne;
 let frameTwo;
 
-let anim;
-let sprite;
+let startAnim;
+let startSprite;
+
+let talkAnim;
+let talkSprite;
+
+let roomAnim;
+let roomSprite;
+
+let goodWords = [`hello`, `hi`, `hey`];
 
 /**
 Description of preload
@@ -30,7 +38,13 @@ function preload() {
  frameOne = loadImage(`assets/images/startFrame1.png`);
  frameTwo = loadImage(`assets/images/startFrame2.png`);
 
- anim = loadAnimation(`assets/images/startFrame1.png`,`assets/images/startFrame2.png`)
+ startAnim = loadAnimation(`assets/images/startFrame1.png`,`assets/images/startFrame2.png`)
+
+ roomAnim = loadAnimation(`assets/images/room1.png`, `assets/images/room2.png`,
+`assets/images/room3.png`);
+
+ talkAnim = loadAnimation(`assets/images/talk1.png`, `assets/images/talk2.png`,
+   `assets/images/talk3.png`);
 }
 
 
@@ -39,20 +53,31 @@ Description of setup
 */
 function setup() {
 createCanvas(windowWidth,windowHeight);
-anim.frameDelay = 24;
+startAnim.frameDelay = 24;
+talkAnim.frameDelay = 24;
+roomAnim.frameDelay = 24;
 
-sprite = createSprite(width/2, height/2);
-sprite.addAnimation("intro", anim);
+startSprite = createSprite(width/2, height/2);
+startSprite.addAnimation("intro", startAnim);
+
+roomSprite = createSprite(width/2, height/2);
+roomSprite.addAnimation("room", roomAnim);
+
+talkSprite = createSprite(width/2, height/2);
+talkSprite.addAnimation("talk", talkAnim);
 }
 
 function start(){
   background(30,40,60);
-  drawSprites();
+  drawSprite(startSprite);
 }
 
 function game(){
-  background(200,20,20);
-  wordTyped();
+  background(60,20,20);
+  //wordTyped();
+  keyPressed();
+
+  drawSprite(roomSprite);
 
   push();
   textSize(30);
@@ -65,9 +90,10 @@ function game(){
   pop();
 
   push();
-  textSize(18);
+  textSize(24);
   textAlign(CENTER);
   textFont(myFont);
+  fill(255);
   text(typing, width/2, height/4);
   pop();
 }
@@ -79,6 +105,7 @@ function draw() {
 stateCheck();
 }
 
+
 function animate(){
 
 }
@@ -88,37 +115,39 @@ if (state === `start`){
   state = `game`;
 }
 
-/*
-if (state === `game`){
- proverb = random(proverbData.proverbs);
- responsiveVoice.speak(proverb,"UK English Male", {
-   pitch: 0.75,
-   rate: 0.75
- }); */
 }
 
+function proverbSpeak(){
+  proverb = random(proverbData.proverbs);
+  if (!responsiveVoice.isPlaying()){
+    responsiveVoice.speak(proverb,"UK English Male", {
+    pitch: 0.75,
+    rate: 0.75
+  })
+  }
+}
 
 function keyTyped() {
   stroke(0);
   typing += key;
 }
 
-function keyPressed() {
-  if (keyCode === BACKSPACE) {
-    typing = typing.substring(0, typing.length - 1);
-  }
-}
 
-function wordTyped(){
-  if (typing === `lantern`) {
-    background(200,0,0);
+function wordCheck(){
+  currentWord = typing
+  if (!goodWords.includes(currentWord)) {
+    proverbSpeak();
       }
     }
 
-
-
-
-
+    function keyPressed() {
+      if (keyCode === BACKSPACE) {
+        typing = typing.substring(0, typing.length - 1);
+      } else if (keyCode === DOWN_ARROW){
+        wordCheck();
+        print(currentWord);
+      }
+    }
 
 function stateCheck(){
   if (state === `start`){
