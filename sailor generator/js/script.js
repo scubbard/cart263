@@ -118,7 +118,7 @@ function proverbSpeak() {
 
 //loads one of the `secret answers` and calls responsiveVoice to say it aloud
 function secretSpeak() {
-    let answerUsed = random(secretAnswer);
+   answerUsed = random(secretAnswer);
   if (!responsiveVoice.isPlaying()) {
     responsiveVoice.speak(answerUsed, "UK English Male", {
       pitch: 0.75,
