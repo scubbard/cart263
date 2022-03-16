@@ -11,6 +11,7 @@ author, and this description to match your project!
 // Code goes here
 
 let secret = `Theremin`;
+let audioElement = new Audio (`assets/sounds/jangle.mp3`);
 
 $(`#solved-dialog`).dialog({
   autoOpen: false,
@@ -48,6 +49,7 @@ $(`#answer`).droppable({
 
     if ($(`#answer`).text() === secret) {
       $(`#solved-dialog`).dialog(`open`);
+      audioElement.play();
     }
 
   }
