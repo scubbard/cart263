@@ -10,12 +10,14 @@ author, and this description to match your project!
 
 // Code goes here
 
-let secret = `Theremin`;
+let secret = `ibelieve`;
+//loads audio into page
 let audioElement = new Audio (`assets/sounds/jangle.mp3`);
 
 $(`#solved-dialog`).dialog({
+//prevents dialog box from opening immediately
   autoOpen: false,
-
+//adds button to click upon completing task
   buttons: {
     "yeah!": function(){
       $(this).dialog(`close`);
@@ -42,11 +44,12 @@ $(`#answer`).droppable({
     $(this).append(letter);
     //disables dragging
     ui.draggable.draggable(`disable`);
-
+    //removes the found class from the letter, turning it back to white
     ui.draggable.removeClass(`found`,500);
-
+    //prevents the letter from being moused over and turning red again
     ui.draggable.off(`mouseover`);
-
+    //if statement telling the program to show the dialog box and play the sfx
+    //only if the player has solved the puzzle
     if ($(`#answer`).text() === secret) {
       $(`#solved-dialog`).dialog(`open`);
       audioElement.play();
