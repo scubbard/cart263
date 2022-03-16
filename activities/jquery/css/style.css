@@ -1,0 +1,27 @@
+/*********************************************
+
+haiku pretty-ifier
+
+**********************************************/
+
+
+body {
+  font-family: Times Oblique,serif;
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: black;
+}
+
+#main-heading{
+  color:rgb(200,40,30);
+}
+
+#line-1 {
+  color: rgb(150, 40, 30);
+}
+#line-2 {
+  color: rgb(100, 40, 30);
+}
+#line-3 {
+  color: rgb(60, 40, 30);
+}
