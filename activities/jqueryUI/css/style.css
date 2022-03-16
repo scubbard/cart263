@@ -1,0 +1,38 @@
+/*********************************************
+
+Here is a description of any special CSS used.
+By default that's nothing.
+
+**********************************************/
+#answer {
+  height: 2rem;
+  width: 20rem;
+  color: white;
+  border: 2px solid grey;
+}
+
+#solved-dialog {
+  color: white;
+}
+
+#message {
+  font-size: 1.5rem;
+}
+
+h2 {
+  weight: bolder;
+  font-size: 2rem
+}
+
+body {
+  background-color: rgb(50,10,5);
+}
+
+#poem {
+  background-color: black;
+  color: lightgrey;
+}
+
+.found {
+  color: red;
+}
