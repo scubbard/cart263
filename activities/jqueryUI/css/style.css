@@ -13,7 +13,14 @@ By default that's nothing.
 
 #solved-dialog {
   color: white;
+  background-color: rgb(20,20,60);
 }
+
+#instruction-dialog {
+  color: white;
+  background-color: rgb(60,20,60);
+}
+
 
 #message {
   font-size: 1.5rem;
@@ -33,6 +40,19 @@ body {
   color: lightgrey;
 }
 
+
+
 .found {
   color: red;
+}
+
+
+
+.gone {
+  opacity: 0;
+}
+
+.foundAgain {
+  opacity: 100;
+  color:red;
 }
