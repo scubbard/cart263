@@ -7,8 +7,8 @@ code by georgie
 "use strict";
 
 // Code goes here
+let secret = `i`;
 
-let secret = `ibelieve`;
 //loads audio into page
 let audioElement = new Audio(`assets/sounds/jangle.mp3`);
 
@@ -44,7 +44,6 @@ $(`.secret`).on(`mouseover`, function(event) {
 //makes secret letters draggable
 $(`.secret`).draggable({
   helper: `clone`
-
 });
 
 
@@ -66,8 +65,6 @@ $(`#answer`).droppable({
     //only if the player has solved the puzzle
     if ($(`#answer`).text() === secret) {
       $(`#solved-dialog`).dialog(`open`);
-      audioElement.play();
     }
-
   }
 });
