@@ -9,11 +9,15 @@ how much would you do for someone who left you alone?
 
 let state = `start`
 
+let startAnim;
+let startSprite;
+
 /**
 Description of preload
 */
 function preload() {
-
+  startAnim = loadAnimation(`assets/images/titleFrame1.jpg`, `assets/images/titleFrame2.jpg`,
+  `assets/images/titleFrame3.jpg`);
 }
 
 
@@ -22,6 +26,10 @@ creates a canvas for the simulation to play on
 */
 function setup() {
 createCanvas(windowWidth,windowHeight);
+startAnim.frameDelay = 24;
+
+startSprite = createSprite(width / 2, height / 2);
+startSprite.addAnimation("intro", startAnim);
 }
 
 
@@ -39,8 +47,9 @@ function stateCheck(){
 }
 //function for `start` gamestate. creates a background and displays text
 function start() {
-  background(150,40,30)
-  text(`click to start`, width/2, height/2)
+  background(150,40,30);
+  //startText();
+  drawSprite(startSprite);
 }
 
 //function for `game` gamestate. creates a background and displays text
@@ -54,4 +63,12 @@ function mousePressed(){
   if (state === `start`){
     state = `game`
   };
+}
+
+function startText(){
+  push();
+  textAlign(CENTER);
+  textSize(24);
+  text(`click to start`, width/2, height/2)
+  pop();
 }
