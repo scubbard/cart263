@@ -35,8 +35,8 @@ startAnim.frameDelay = 24;
 startSprite = createSprite(width / 2, height / 2);
 startSprite.addAnimation("intro", startAnim);
 
-let x = 200;
-let y = 200;
+let x = width - width + 200;
+let y = height - 200;
 button = new Button(x, y);
 }
 
@@ -51,6 +51,8 @@ function stateCheck(){
     start();
   } else if (state === `game`){
     game();
+  } else if (state === `gameTwo`){
+    gameTwo();
   }
 }
 //function for `start` gamestate. creates a background and displays text
@@ -67,12 +69,19 @@ function game() {
   button.display();
 }
 
+function gameTwo() {
+  background(30,40,150)
+  text(`this is where the game TWO! goes.`,width/2,height/2)
+}
+
 //checks for when the player clicks the mouse and changes gamestate when they do
 function mousePressed(){
   if (state === `start`){
     state = `game`
   };
 }
+
+
 
 function startText(){
   push();
