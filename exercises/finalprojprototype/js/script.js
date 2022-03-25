@@ -12,10 +12,13 @@ let state = `start`
 let startAnim;
 let startSprite;
 
+let button = undefined;
+
 /**
 Description of preload
 */
 function preload() {
+  //loads title screen animation frames
   startAnim = loadAnimation(`assets/images/titleFrame1.jpg`, `assets/images/titleFrame2.jpg`,
   `assets/images/titleFrame3.jpg`);
 }
@@ -26,10 +29,15 @@ creates a canvas for the simulation to play on
 */
 function setup() {
 createCanvas(windowWidth,windowHeight);
+//sets delay between animation frames
 startAnim.frameDelay = 24;
 
 startSprite = createSprite(width / 2, height / 2);
 startSprite.addAnimation("intro", startAnim);
+
+let x = 200;
+let y = 200;
+button = new Button(x, y);
 }
 
 
@@ -47,7 +55,7 @@ function stateCheck(){
 }
 //function for `start` gamestate. creates a background and displays text
 function start() {
-  background(150,40,30);
+  background(75,20,15);
   //startText();
   drawSprite(startSprite);
 }
@@ -56,6 +64,7 @@ function start() {
 function game() {
   background(30,40,150)
   text(`this is where the game goes.`,width/2,height/2)
+  button.display();
 }
 
 //checks for when the player clicks the mouse and changes gamestate when they do
