@@ -1,9 +1,9 @@
 //
-class Button {
+class EndButton {
 
   constructor(x, y) {
-    this.x = x;
-    this.y = y;
+    this.x2 = x;
+    this.y2 = y;
     this.width = 200
     this.height = 60
     this.colour = undefined;
@@ -19,13 +19,14 @@ class Button {
        mouseX < this.x + this.width/2 && mouseY > this.y - this.height/2 &&
      mouseY < this.y + this.height/2) {
          //this.mouseInBox = true;
-         nextDay();
+         state = `endGame`
        } else {
          this.mouseInBox = false;
        }
   }
 
 
+/*
   buttonCheck() {
     if (this.mouseInBox === true) {
       this.colour = 40;
@@ -36,13 +37,7 @@ class Button {
       this.text = `wait another day.`
     }
   }
-
-
-dayText(){
-  text(`you waited another day...`, width / 2, height / 4)
-  text(todayScene, width / 2, height / 5)
-  text(`Day ${counter}`, width/2, height/5 - 40);
-};
+*/
 
 
   makeButton() {
@@ -59,7 +54,6 @@ dayText(){
     stroke(0);
     fill(150,100,0);
     text(this.text,this.x,this.y + 5)
-    this.dayText();
     pop();
 
   }
