@@ -64,7 +64,7 @@ function stateCheck() {
   } else if (state === `game`) {
     game();
   } else if (state === `endGame`) {
-    gameTwo();
+    endGame();
   }
 }
 //function for `start` gamestate. creates a background and displays text
@@ -79,11 +79,12 @@ function game() {
   background(30, 40, 150)
   text(`this is where the game goes.`, width / 2, height / 2)
   button.display();
+  endButton.display();
 }
 
 function endGame() {
   background(30, 40, 150)
-  text(`you survived ${counter} days out there before it all ended.`, width / 2, height / 2)
+  endText();
 }
 
 //checks for when the player clicks the mouse and changes gamestate when they do
@@ -93,8 +94,20 @@ function mousePressed() {
   }
   clicked = true;
   button.mouseCheck()
+  endButton.mouseCheck()
 }
 
+function endText(){
+  push();
+  textAlign(CENTER);
+  textSize(24);
+  strokeWeight(4)
+  stroke(0);
+  fill(150,100,0);
+  text(`you survived ${counter} days out there, before it all ended.`, width / 2, height / 2)
+  text(`try again, maybe they'll come this time.`, width/2, height/2 + 30);
+  pop();
+}
 
 function nextDay() {
   counter += 1;

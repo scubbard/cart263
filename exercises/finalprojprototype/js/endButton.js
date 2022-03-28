@@ -2,13 +2,13 @@
 class EndButton {
 
   constructor(x, y) {
-    this.x2 = x;
-    this.y2 = y;
+    this.x = x;
+    this.y = y - 100;
     this.width = 200
     this.height = 60
     this.colour = undefined;
     this.mouseInBox = false;
-    this.text =  `wait another day.`;
+    this.text =  `give up.`;
     this.textFill = undefined;
 
   }
@@ -26,18 +26,15 @@ class EndButton {
   }
 
 
-/*
+
   buttonCheck() {
     if (this.mouseInBox === true) {
       this.colour = 40;
-      counter += 1;
-      //nextDay();
     } else {
       this.colour = 200;
-      this.text = `wait another day.`
     }
   }
-*/
+
 
 
   makeButton() {
