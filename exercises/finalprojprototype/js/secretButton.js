@@ -1,14 +1,15 @@
 //
-class EndButton {
+class SecretButton {
 
   constructor(x, y) {
     this.x = x;
-    this.y = y - 100;
+    this.y = y - 200;
     this.width = 200
     this.height = 60
     this.colour = undefined;
     this.mouseInBox = false;
     this.text =  undefined;
+    this.textSize = 12;
     this.textFill = undefined;
 
   }
@@ -19,7 +20,7 @@ class EndButton {
        mouseX < this.x + this.width/2 && mouseY > this.y - this.height/2 &&
      mouseY < this.y + this.height/2) {
          //this.mouseInBox = true;
-         state = `endGame`
+         state = `secretEnd`
        } else {
          this.mouseInBox = false;
        }
@@ -46,11 +47,11 @@ class EndButton {
     pop();
     push();
     textAlign(CENTER);
-    textSize(20);
+    textSize(this.textSize);
     strokeWeight(4)
     stroke(0);
     fill(150,100,0);
-    text(giveUpText,this.x - this.x /2 + 5,this.y - 10 ,this.width, this.y - 5)
+    text(`it's time.`,this.x - this.x /2 + 5,this.y - 10 ,this.width, this.y - 5)
     pop();
 
   }
@@ -61,7 +62,7 @@ class EndButton {
   }
 
   display() {
-    if(this.mouseInBox === false){
+    if(counter > 20){
     this.makeButton();
     }
   }

@@ -14,8 +14,13 @@ let startSprite;
 
 let button = undefined;
 let endButton = undefined;
+let secretButton = undefined;
 
 let clicked = false;
+
+let giveUpMessages = [`give up.`,`they aren't coming.`,`would they do this for you?`,`it's time to move on.`];
+let giveUpText = `give up.`
+
 
 let counter = 0;
 
@@ -50,6 +55,8 @@ function setup() {
   let x2 = x;
   let y2 = y - 100;
   endButton = new EndButton(x,y);
+
+  secretButton = new SecretButton(x,y)
 }
 
 
@@ -65,6 +72,8 @@ function stateCheck() {
     game();
   } else if (state === `endGame`) {
     endGame();
+  } else if (state === `secretEnd`) {
+    secretEnd();
   }
 }
 //function for `start` gamestate. creates a background and displays text
@@ -80,11 +89,18 @@ function game() {
   text(`this is where the game goes.`, width / 2, height / 2)
   button.display();
   endButton.display();
+  secretButton.display();
 }
 
 function endGame() {
-  background(30, 40, 150)
+  background(100, 40, 20)
   endText();
+}
+
+function secretEnd() {
+  background(40,100,20);
+  textSize(secretButton.textSize);
+  text(`sometimes ya gotta do it yerself!`, width/2, height/2);
 }
 
 //checks for when the player clicks the mouse and changes gamestate when they do
@@ -93,8 +109,9 @@ function mousePressed() {
     state = `game`
   }
   clicked = true;
-  button.mouseCheck()
-  endButton.mouseCheck()
+  button.mouseCheck();
+  endButton.mouseCheck();
+  secretButton.mouseCheck();
 }
 
 function endText(){
@@ -111,9 +128,11 @@ function endText(){
 
 function nextDay() {
   counter += 1;
-  todayScene = random(scenes)
+  todayScene = random(scenes);
+  giveUpText = random(giveUpMessages);
   print(`WORKING!`);
   button.mouseInBox = false;
+  secretButton.textSize += 1;
   print(button.mouseInBox, counter);
 };
 
