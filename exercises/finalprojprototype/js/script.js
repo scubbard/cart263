@@ -15,10 +15,14 @@ let startSprite;
 let button = undefined;
 let endButton = undefined;
 let secretButton = undefined;
+let foodBar = undefined;
+
+let food = 100;
+let foodMap = 300;
 
 let clicked = false;
 
-let giveUpMessages = [`give up.`,`they aren't coming.`,`would they do this for you?`,`it's time to move on.`];
+let giveUpMessages = [`give up.`, `they aren't coming.`, `would they do this for you?`, `it's time to move on.`];
 let giveUpText = `give up.`
 
 
@@ -26,6 +30,11 @@ let counter = 0;
 
 let scenes = [`sunny`, `grey`, `rainy`, `night`];
 let todayScene;
+
+//array of different events that cause different effects on the player
+let events = [
+  {}
+]
 
 /**
 Description of preload
@@ -54,9 +63,12 @@ function setup() {
 
   let x2 = x;
   let y2 = y - 100;
-  endButton = new EndButton(x,y);
+  endButton = new EndButton(x, y);
 
-  secretButton = new SecretButton(x,y)
+  secretButton = new SecretButton(x, y);
+
+  foodBar = new FoodBar(x, y);
+  foodMap = map(foodMap, 0, 300, 0, 100);
 }
 
 
@@ -90,6 +102,7 @@ function game() {
   button.display();
   endButton.display();
   secretButton.display();
+  foodBar.display();
 }
 
 function endGame() {
@@ -98,9 +111,10 @@ function endGame() {
 }
 
 function secretEnd() {
-  background(40,100,20);
+  background(40, 100, 20);
+  textAlign(CENTER);
   textSize(secretButton.textSize);
-  text(`sometimes ya gotta do it yerself!`, width/2, height/2);
+  text(`sometimes ya gotta do it yerself!`, width / 2, height / 2);
 }
 
 //checks for when the player clicks the mouse and changes gamestate when they do
@@ -114,15 +128,15 @@ function mousePressed() {
   secretButton.mouseCheck();
 }
 
-function endText(){
+function endText() {
   push();
   textAlign(CENTER);
   textSize(24);
   strokeWeight(4)
   stroke(0);
-  fill(150,100,0);
+  fill(150, 100, 0);
   text(`you survived ${counter} days out there, before it all ended.`, width / 2, height / 2)
-  text(`try again, maybe they'll come this time.`, width/2, height/2 + 30);
+  text(`try again, maybe they'll come this time.`, width / 2, height / 2 + 30);
   pop();
 }
 

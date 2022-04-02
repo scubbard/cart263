@@ -8,21 +8,21 @@ class Button {
     this.height = 60
     this.colour = undefined;
     this.mouseInBox = false;
-    this.text =  `wait another day.`;
+    this.text = `wait another day.`;
     this.textFill = undefined;
 
   }
 
-
-  mouseCheck(){
-    if (clicked === true && mouseX > this.x - this.width/2 &&
-       mouseX < this.x + this.width/2 && mouseY > this.y - this.height/2 &&
-     mouseY < this.y + this.height/2) {
-         //this.mouseInBox = true;
-         nextDay();
-       } else {
-         this.mouseInBox = false;
-       }
+// add a "if button.isShowing" or something so that buttons aren't clickable until visible
+  mouseCheck() {
+    if (clicked === true && mouseX > this.x - this.width / 2 &&
+      mouseX < this.x + this.width / 2 && mouseY > this.y - this.height / 2 &&
+      mouseY < this.y + this.height / 2) {
+      //this.mouseInBox = true;
+      nextDay();
+    } else {
+      this.mouseInBox = false;
+    }
   }
 
 
@@ -38,11 +38,11 @@ class Button {
   }
 
 
-dayText(){
-  text(`you waited another day...`, width / 2, height / 4)
-  text(todayScene, width / 2, height / 5)
-  text(`Day ${counter}`, width/2, height/5 - 40);
-};
+  dayText() {
+    text(`you waited another day...`, width / 2, height / 4)
+    text(todayScene, width / 2, height / 5)
+    text(`Day ${counter}`, width / 2, height / 5 - 40);
+  };
 
 
   makeButton() {
@@ -57,8 +57,8 @@ dayText(){
     textSize(24);
     strokeWeight(4)
     stroke(0);
-    fill(150,100,0);
-    text(this.text,this.x,this.y + 5)
+    fill(150, 100, 0);
+    text(this.text, this.x, this.y + 5)
     this.dayText();
     pop();
 
@@ -70,8 +70,8 @@ dayText(){
   }
 
   display() {
-    if(this.mouseInBox === false){
-    this.makeButton();
+    if (this.mouseInBox === false) {
+      this.makeButton();
     }
   }
 

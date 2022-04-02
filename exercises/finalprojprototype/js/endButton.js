@@ -8,21 +8,21 @@ class EndButton {
     this.height = 60
     this.colour = undefined;
     this.mouseInBox = false;
-    this.text =  undefined;
+    this.text = undefined;
     this.textFill = undefined;
 
   }
 
 
-  mouseCheck(){
-    if (clicked === true && mouseX > this.x - this.width/2 &&
-       mouseX < this.x + this.width/2 && mouseY > this.y - this.height/2 &&
-     mouseY < this.y + this.height/2) {
-         //this.mouseInBox = true;
-         state = `endGame`
-       } else {
-         this.mouseInBox = false;
-       }
+  mouseCheck() {
+    if (clicked === true && mouseX > this.x - this.width / 2 &&
+      mouseX < this.x + this.width / 2 && mouseY > this.y - this.height / 2 &&
+      mouseY < this.y + this.height / 2) {
+      //this.mouseInBox = true;
+      state = `endGame`
+    } else {
+      this.mouseInBox = false;
+    }
   }
 
 
@@ -49,8 +49,8 @@ class EndButton {
     textSize(20);
     strokeWeight(4)
     stroke(0);
-    fill(150,100,0);
-    text(giveUpText,this.x - this.x /2 + 5,this.y - 10 ,this.width, this.y - 5)
+    fill(150, 100, 0);
+    text(giveUpText, this.x - this.x / 2 + 5, this.y - 10, this.width, this.y - 5)
     pop();
 
   }
@@ -61,8 +61,8 @@ class EndButton {
   }
 
   display() {
-    if(this.mouseInBox === false){
-    this.makeButton();
+    if (this.mouseInBox === false) {
+      this.makeButton();
     }
   }
 

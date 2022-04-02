@@ -8,22 +8,22 @@ class SecretButton {
     this.height = 60
     this.colour = undefined;
     this.mouseInBox = false;
-    this.text =  undefined;
+    this.text = undefined;
     this.textSize = 12;
     this.textFill = undefined;
 
   }
 
 
-  mouseCheck(){
-    if (clicked === true && mouseX > this.x - this.width/2 &&
-       mouseX < this.x + this.width/2 && mouseY > this.y - this.height/2 &&
-     mouseY < this.y + this.height/2) {
-         //this.mouseInBox = true;
-         state = `secretEnd`
-       } else {
-         this.mouseInBox = false;
-       }
+  mouseCheck() {
+    if (clicked === true && mouseX > this.x - this.width / 2 &&
+      mouseX < this.x + this.width / 2 && mouseY > this.y - this.height / 2 &&
+      mouseY < this.y + this.height / 2) {
+      //this.mouseInBox = true;
+      state = `secretEnd`
+    } else {
+      this.mouseInBox = false;
+    }
   }
 
 
@@ -50,8 +50,8 @@ class SecretButton {
     textSize(this.textSize);
     strokeWeight(4)
     stroke(0);
-    fill(150,100,0);
-    text(`it's time.`,this.x - this.x /2 + 5,this.y - 10 ,this.width, this.y - 5)
+    fill(150, 100, 0);
+    text(`it's time.`, this.x - this.x / 2 + 5, this.y - 10, this.width, this.y - 5)
     pop();
 
   }
@@ -62,8 +62,8 @@ class SecretButton {
   }
 
   display() {
-    if(counter > 20){
-    this.makeButton();
+    if (counter > 2) {
+      this.makeButton();
     }
   }
 
