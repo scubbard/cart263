@@ -9,16 +9,27 @@ how much would you do for someone who left you alone?
 
 let state = `start`
 
+let userData = {
+  name: `survivor`
+};
+
 let startAnim;
 let startSprite;
 
 let button = undefined;
 let endButton = undefined;
 let secretButton = undefined;
-let foodBar = undefined;
+let healthBar = undefined;
 
-let food = 100;
-let foodMap = 300;
+let winPic;
+
+
+let player = {
+  health: 100,
+  text: ``
+};
+
+let healthMap = 300;
 
 let clicked = false;
 
@@ -33,7 +44,37 @@ let todayScene;
 
 //array of different events that cause different effects on the player
 let events = [
-  {}
+  {
+    text: `you ate some expired beans.`,
+    health: -15
+  },
+  {
+    text: `you slept okay.`,
+    health: 0,
+  },
+  {
+    text: `you had a dream about rabbits.`,
+    health: 0,
+  },
+  {
+    text:`you heard something scratching on the walls, further down the cave.
+    it freaked you out.`,
+    health: -10
+  },
+  {
+    text: `you tripped on a rock and twisted your ankle.`,
+    health: -20
+  },
+  {
+    text: `something came in and tried to steal your food.
+    you barely fought it off. at least, you think it was looking
+    for your food.`,
+    health: -40
+  },
+  {
+    text: `you haven't eaten in a few days. you're hungry.`,
+    health: -10
+  },
 ]
 
 /**
@@ -43,6 +84,7 @@ function preload() {
   //loads title screen animation frames
   startAnim = loadAnimation(`assets/images/titleFrame1.jpg`, `assets/images/titleFrame2.jpg`,
     `assets/images/titleFrame3.jpg`);
+  winPic = loadImage(`assets/images/winner.png`);
 }
 
 
@@ -53,6 +95,18 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   //sets delay between animation frames
   startAnim.frameDelay = 24;
+
+  let data = JSON.parse(localStorage.getItem(`user-data`));
+
+  if (data) {
+    state = `secretEnd`
+  } else {
+    userData.name = prompt(`do i even remember my name`, ``);
+    // Save the user data
+    localStorage.setItem(`user-data`, JSON.stringify(userData));
+    //data code by Pippin Barr (https://pippinbarr.github.io/cart263/topics/data/web-storage-api.html)
+  }
+
 
   startSprite = createSprite(width / 2, height / 2);
   startSprite.addAnimation("intro", startAnim);
@@ -67,8 +121,8 @@ function setup() {
 
   secretButton = new SecretButton(x, y);
 
-  foodBar = new FoodBar(x, y);
-  foodMap = map(foodMap, 0, 300, 0, 100);
+  healthBar = new HealthBar(x, y);
+  healthMap = map(healthMap, 0, 300, 0, 100);
 }
 
 
@@ -102,7 +156,8 @@ function game() {
   button.display();
   endButton.display();
   secretButton.display();
-  foodBar.display();
+  healthBar.display();
+  eventText();
 }
 
 function endGame() {
@@ -112,10 +167,24 @@ function endGame() {
 
 function secretEnd() {
   background(40, 100, 20);
-  textAlign(CENTER);
-  textSize(secretButton.textSize);
-  text(`sometimes ya gotta do it yerself!`, width / 2, height / 2);
+  imageMode(CENTER);
+  image(winPic, width/2,height/2)
 }
+
+function chooseEvent(){
+  let currentEvent = random(events);
+  player.health += currentEvent.health;
+  player.text = currentEvent.text;
+}
+
+function eventText(){
+  push();
+  textAlign(CENTER);
+  textSize(20);
+  text(player.text, width/2, height/3);
+  pop();
+}
+
 
 //checks for when the player clicks the mouse and changes gamestate when they do
 function mousePressed() {
@@ -144,6 +213,7 @@ function nextDay() {
   counter += 1;
   todayScene = random(scenes);
   giveUpText = random(giveUpMessages);
+  chooseEvent();
   print(`WORKING!`);
   button.mouseInBox = false;
   secretButton.textSize += 1;

@@ -1,12 +1,12 @@
-class FoodBar {
+class HealthBar {
 
   constructor(x, y) {
     this.x = width / 2;
     this.y = height - 50;
     this.barWidth = 300;
     this.barHeight = 30;
-    this.foodWidth = foodMap;
-    this.foodHeight = 30;
+    this.healthWidth = healthMap;
+    this.healthHeight = 30;
   }
 
   drawBar() {
@@ -17,15 +17,15 @@ class FoodBar {
     pop();
   }
 
-  drawfoodBar() {
+  drawHealthBar() {
     push();
     rectMode(CENTER);
     fill(20, 180, 20);
-    rect(this.x, this.y, this.foodWidth, this.foodHeight);
+    rect(this.x, this.y, this.healthWidth, this.healthHeight);
     pop();
     push();
     textAlign(CENTER);
-    text(`food: ${food}`, this.x, this.y);
+    text(`health: ${player.health}`, this.x, this.y);
     pop();
   }
 
@@ -37,7 +37,7 @@ class FoodBar {
 
   display() {
     this.drawBar();
-    this.drawfoodBar();
+    this.drawHealthBar();
   }
 
 }
