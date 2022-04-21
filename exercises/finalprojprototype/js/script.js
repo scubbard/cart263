@@ -11,7 +11,7 @@ let state = `start`
 
 let userData = {
   name: `survivor`,
-  beat: undefined,
+  saveCounter: undefined
 };
 
 let startAnim;
@@ -86,6 +86,36 @@ let events = [{
     text: `you haven't eaten in a few days. you're hungry.`,
     health: -10
   },
+  {
+    text: `you found a can of soup. delish.`,
+    health: +20
+  },
+  {
+    text: `the fire was warm today. made you think of home.`,
+    health: +10
+  },
+  {
+    text: `you found a spare pack of bandages and some iodine. just in case.`,
+    health: +30
+  },
+  {
+    text: `you found a grocery store that was mostly untouched. lucky.`,
+    health: +40
+  },
+  {
+    text: `you found someone's journal. it seems like they only lasted a couple days.`,
+    health: 0
+  },
+  {
+    text: `as it turns out, that abandoned building wasn't actually abandoned.
+    you're lucky all they hit was your leg.`,
+    health: -40
+  },
+  {
+    text: ``,
+    health: -40
+  },
+
 ]
 
 /**
@@ -97,7 +127,7 @@ function preload() {
     `assets/images/titleFrame3.jpg`);
   coldAnim = loadAnimation(`assets/images/cold1.png`, `assets/images/cold2.png`, `assets/images/cold3.png`)
   rainyAnim = loadAnimation(`assets/images/rainy1.png`, `assets/images/rainy2.png`, `assets/images/rainy3.png`, `assets/images/rainy4.png`)
-  winPic = loadImage(`assets/images/winner.png`);
+  winPic = loadImage(`assets/images/END.png`);
   hazyPic = loadImage(`assets/images/hazy.png`);
   nightPic = loadImage(`assets/images/night.png`);
 
@@ -119,9 +149,9 @@ function setup() {
 
   if (data) {
     beatCheck();
-    print(userData.beat);
   } else {
     userData.name = prompt(`do i even remember my name`, ``);
+    //userData.beat = true
     // Save the user data
     localStorage.setItem(`user-data`, JSON.stringify(userData));
     //data code by Pippin Barr (https://pippinbarr.github.io/cart263/topics/data/web-storage-api.html)
@@ -148,7 +178,7 @@ function setup() {
   secretButton = new SecretButton(x, y);
 
   healthBar = new HealthBar(x, y);
-  healthMap = map(healthMap, 0, 300, 0, 100);
+  healthMap = map(player.health, 0, 300, 0, 100);
 }
 
 
@@ -179,13 +209,14 @@ function start() {
 //function for `game` gamestate. creates a background and displays text
 function game() {
   background(30)
-  text(`this is where the game goes.`, width / 2, height / 2)
+  introCheck();
+  sceneCheck();
   button.display();
   endButton.display();
-  sceneCheck();
   secretButton.display();
   healthBar.display();
   eventText();
+  healthCheck();
 }
 
 function endGame() {
@@ -216,27 +247,39 @@ function hazyDay() {
 }
 
 function beatCheck() {
-  if (userData.beat === true) {
+  if (userData.saveCounter > 1) {
     state = `secretEnd`
   };
 }
 
-function sceneCheck(){
-  if (todayScene === `cold`){
+function sceneCheck() {
+  if (todayScene === `cold`) {
     coldDay();
-  } else if (todayScene === `hazy`){
+  } else if (todayScene === `hazy`) {
     hazyDay();
-  } else if (todayScene === `night`){
+  } else if (todayScene === `night`) {
     nightDay();
-  } else if (todayScene === `rainy`){
+  } else if (todayScene === `rainy`) {
     rainyDay();
   };
 }
 
+function healthCheck() {
+  if (player.health < 1 || healthMap < 1) {
+    state = `endGame`
+    print(`working???`);
+  }
+}
+
 function secretEnd() {
-  background(40, 100, 20);
+  if (counter > 1)
+{background(40, 50, 20);
   imageMode(CENTER);
-  image(winPic, width / 2, height / 2)
+  image(winPic, width / 2, height / 2)}
+  else {
+    state = `game`
+  }
+  //userData.beat = true;
 }
 
 function chooseEvent() {
@@ -248,7 +291,10 @@ function chooseEvent() {
 function eventText() {
   push();
   textAlign(CENTER);
-  textSize(20);
+  textSize(24);
+  stroke(0);
+  strokeWeight(10);
+  fill(150, 40, 40);
   text(player.text, width / 2, height / 3);
   pop();
 }
@@ -279,6 +325,8 @@ function endText() {
 
 function nextDay() {
   counter += 1;
+  userData.saveCounter = counter;
+  localStorage.setItem(`user-data`, JSON.stringify(userData));
   todayScene = random(scenes);
   //sceneCheck();
   giveUpText = random(giveUpMessages);
@@ -288,8 +336,25 @@ function nextDay() {
   secretButton.textSize += 1;
   secretButton.colour += 5;
   print(button.mouseInBox, counter);
+  healthCheck();
 };
 
+function introText() {
+  push();
+  textAlign(CENTER);
+  textSize(18);
+  strokeWeight(4)
+  stroke(0);
+  fill(0, 100, 150);
+  text(`i barely got out of the city... where are you?`, width / 2, height / 2)
+  pop();
+}
+
+function introCheck() {
+  if (counter <= 1) {
+    introText();
+  }
+}
 
 function startText() {
   push();

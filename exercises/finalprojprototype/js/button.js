@@ -39,7 +39,9 @@ class Button {
 
 
   dayText() {
+    if (counter > 0){
     text(`you waited another day...`, width / 2, height / 4)
+  }
     text(todayScene, width / 2, height / 5)
     text(`Day ${counter}`, width / 2, height / 5 - 40);
   };

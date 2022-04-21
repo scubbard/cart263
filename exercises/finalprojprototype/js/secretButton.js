@@ -21,7 +21,8 @@ class SecretButton {
       mouseY < this.y + this.height / 2) {
       //this.mouseInBox = true;
       state = `secretEnd`
-      userData.beat = true;
+      userData.saveCounter = counter
+      localStorage.setItem(`user-data`, JSON.stringify(userData));
     } else {
       this.mouseInBox = false;
     }
