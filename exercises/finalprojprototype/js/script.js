@@ -14,6 +14,10 @@ let userData = {
   saveCounter: undefined
 };
 
+let gameSong;
+let deadSong;
+let winSong;
+
 let startAnim;
 let startSprite;
 
@@ -131,7 +135,9 @@ function preload() {
   hazyPic = loadImage(`assets/images/hazy.png`);
   nightPic = loadImage(`assets/images/night.png`);
 
-
+  gameSong = loadSound(`assets/sounds/IMCA_SOUND_4.mp3`);
+  deadSong = loadSound(`assets/sounds/IMCA_SOUND_5.mp3`);
+  winSong = loadSound(`assets/sounds/IMCA_SOUND_1.mp3`);
 }
 
 
@@ -209,6 +215,7 @@ function start() {
 //function for `game` gamestate. creates a background and displays text
 function game() {
   background(30)
+  playGameSong();
   introCheck();
   sceneCheck();
   button.display();
@@ -221,6 +228,7 @@ function game() {
 
 function endGame() {
   background(100, 40, 20)
+  playDeadSong();
   endText();
 }
 
@@ -272,13 +280,14 @@ function healthCheck() {
 }
 
 function secretEnd() {
-  if (counter > 1)
-{background(40, 50, 20);
-  imageMode(CENTER);
-  image(winPic, width / 2, height / 2)}
-  else {
+  if (counter > 1) {
+    background(40, 50, 20);
+    imageMode(CENTER);
+    image(winPic, width / 2, height / 2)
+  } else {
     state = `game`
   }
+  playWinSong();
   //userData.beat = true;
 }
 
@@ -353,6 +362,26 @@ function introText() {
 function introCheck() {
   if (counter <= 1) {
     introText();
+  }
+}
+
+function playGameSong() {
+  if (!gameSong.isPlaying() && state === `game`) {
+    gameSong.loop()
+  }
+}
+
+function playDeadSong() {
+  gameSong.stop();
+  if (!deadSong.isPlaying() && state === `endGame`) {
+    deadSong.loop()
+  }
+}
+
+function playWinSong() {
+  gameSong.stop();
+  if (!winSong.isPlaying() && state === `secretEnd`) {
+    winSong.loop()
   }
 }
 
