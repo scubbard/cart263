@@ -62,7 +62,7 @@ class SecretButton {
   }
 
   display() {
-    if (counter > 2) {
+    if (counter > 20) {
       this.makeButton();
     }
   }
