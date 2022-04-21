@@ -6,7 +6,7 @@ class SecretButton {
     this.y = y - 200;
     this.width = 200
     this.height = 60
-    this.colour = undefined;
+    this.colour = 0;
     this.mouseInBox = false;
     this.text = undefined;
     this.textSize = 12;
@@ -21,6 +21,7 @@ class SecretButton {
       mouseY < this.y + this.height / 2) {
       //this.mouseInBox = true;
       state = `secretEnd`
+      userData.beat = true;
     } else {
       this.mouseInBox = false;
     }
@@ -31,8 +32,6 @@ class SecretButton {
   buttonCheck() {
     if (this.mouseInBox === true) {
       this.colour = 40;
-    } else {
-      this.colour = 200;
     }
   }
 
@@ -50,8 +49,8 @@ class SecretButton {
     textSize(this.textSize);
     strokeWeight(4)
     stroke(0);
-    fill(150, 100, 0);
-    text(`it's time.`, this.x - this.x / 2 + 5, this.y - 10, this.width, this.y - 5)
+    fill(this.colour, 100, 0);
+    text(`it's time.`, this.x, this.y + 5)
     pop();
 
   }

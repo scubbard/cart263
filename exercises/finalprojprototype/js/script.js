@@ -10,11 +10,22 @@ how much would you do for someone who left you alone?
 let state = `start`
 
 let userData = {
-  name: `survivor`
+  name: `survivor`,
+  beat: undefined,
 };
 
 let startAnim;
 let startSprite;
+
+let coldAnim;
+let coldSprite;
+
+let rainyAnim;
+let rainySprite;
+
+let nightPic;
+
+let hazyPic;
 
 let button = undefined;
 let endButton = undefined;
@@ -39,12 +50,12 @@ let giveUpText = `give up.`
 
 let counter = 0;
 
-let scenes = [`sunny`, `grey`, `rainy`, `night`];
+let scenes = [`cold`, `hazy`, `rainy`, `night`];
 let todayScene;
 
+
 //array of different events that cause different effects on the player
-let events = [
-  {
+let events = [{
     text: `you ate some expired beans.`,
     health: -15
   },
@@ -57,7 +68,7 @@ let events = [
     health: 0,
   },
   {
-    text:`you heard something scratching on the walls, further down the cave.
+    text: `you heard something scratching on the walls, further down the cave.
     it freaked you out.`,
     health: -10
   },
@@ -84,7 +95,13 @@ function preload() {
   //loads title screen animation frames
   startAnim = loadAnimation(`assets/images/titleFrame1.jpg`, `assets/images/titleFrame2.jpg`,
     `assets/images/titleFrame3.jpg`);
+  coldAnim = loadAnimation(`assets/images/cold1.png`, `assets/images/cold2.png`, `assets/images/cold3.png`)
+  rainyAnim = loadAnimation(`assets/images/rainy1.png`, `assets/images/rainy2.png`, `assets/images/rainy3.png`, `assets/images/rainy4.png`)
   winPic = loadImage(`assets/images/winner.png`);
+  hazyPic = loadImage(`assets/images/hazy.png`);
+  nightPic = loadImage(`assets/images/night.png`);
+
+
 }
 
 
@@ -95,11 +112,14 @@ function setup() {
   createCanvas(windowWidth, windowHeight);
   //sets delay between animation frames
   startAnim.frameDelay = 24;
+  coldAnim.frameDelay = 24;
+  rainyAnim.frameDelay = 24;
 
   let data = JSON.parse(localStorage.getItem(`user-data`));
 
   if (data) {
-    state = `secretEnd`
+    beatCheck();
+    print(userData.beat);
   } else {
     userData.name = prompt(`do i even remember my name`, ``);
     // Save the user data
@@ -110,6 +130,12 @@ function setup() {
 
   startSprite = createSprite(width / 2, height / 2);
   startSprite.addAnimation("intro", startAnim);
+
+  coldSprite = createSprite(width / 2, height / 2);
+  coldSprite.addAnimation("cold", coldAnim);
+
+  rainySprite = createSprite(width / 2, height / 2);
+  rainySprite.addAnimation("rainy", rainyAnim);
 
   let x = width - width + 200;
   let y = height - 200;
@@ -149,12 +175,14 @@ function start() {
   drawSprite(startSprite);
 }
 
+
 //function for `game` gamestate. creates a background and displays text
 function game() {
-  background(30, 40, 150)
+  background(30)
   text(`this is where the game goes.`, width / 2, height / 2)
   button.display();
   endButton.display();
+  sceneCheck();
   secretButton.display();
   healthBar.display();
   eventText();
@@ -165,23 +193,63 @@ function endGame() {
   endText();
 }
 
+function coldDay() {
+  drawSprite(coldSprite);
+}
+
+function rainyDay() {
+  drawSprite(rainySprite);
+}
+
+function nightDay() {
+  push();
+  imageMode(CENTER);
+  image(nightPic, width / 2, height / 2);
+  pop();
+}
+
+function hazyDay() {
+  push();
+  imageMode(CENTER)
+  image(hazyPic, width / 2, height / 2)
+  pop();
+}
+
+function beatCheck() {
+  if (userData.beat === true) {
+    state = `secretEnd`
+  };
+}
+
+function sceneCheck(){
+  if (todayScene === `cold`){
+    coldDay();
+  } else if (todayScene === `hazy`){
+    hazyDay();
+  } else if (todayScene === `night`){
+    nightDay();
+  } else if (todayScene === `rainy`){
+    rainyDay();
+  };
+}
+
 function secretEnd() {
   background(40, 100, 20);
   imageMode(CENTER);
-  image(winPic, width/2,height/2)
+  image(winPic, width / 2, height / 2)
 }
 
-function chooseEvent(){
+function chooseEvent() {
   let currentEvent = random(events);
   player.health += currentEvent.health;
   player.text = currentEvent.text;
 }
 
-function eventText(){
+function eventText() {
   push();
   textAlign(CENTER);
   textSize(20);
-  text(player.text, width/2, height/3);
+  text(player.text, width / 2, height / 3);
   pop();
 }
 
@@ -212,11 +280,13 @@ function endText() {
 function nextDay() {
   counter += 1;
   todayScene = random(scenes);
+  //sceneCheck();
   giveUpText = random(giveUpMessages);
   chooseEvent();
   print(`WORKING!`);
   button.mouseInBox = false;
   secretButton.textSize += 1;
+  secretButton.colour += 5;
   print(button.mouseInBox, counter);
 };
 
